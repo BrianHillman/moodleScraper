@@ -3,8 +3,8 @@ import os
 
 folderPath = "test"
 cookies = dict(MOODLEID1_DENTISTRY   = '%25C5c%2510%25BA%2581%252A',
-            MoodleSessionDENTISTRY= 'vj29rtt35tejq4bcfnhjh3hdg6',
-            MoodleSessionTestDENTISTRY='Ou4NKvLaPW')
+            MoodleSessionDENTISTRY= 'dfjt40cjr18aa77e0tff52v2i6',
+            MoodleSessionTestDENTISTRY='D2VEnBFwyb')
 
 def getCourseMoogle(courseName):
     courseCode = courseName.split('-', 1)[0]
@@ -20,9 +20,7 @@ def getCourseMoogle(courseName):
     for ind, x in enumerate(classLinks):
         if courseCode in str(x.contents[0]):
             print  ind,') ', x.contents[0], "URL:", x.get('href')
-
     index = input("Enter a number: ")
-
     return classLinks[index].get('href')
 
 def parseCourseMoogle(courseURL):
@@ -97,18 +95,22 @@ def handleLI(tagLI):
     if fileType == None:
         return ""
     elif fileType == "pdf.gif":
-        downloadFile(getFileURL(tagLI))
+        fileName = downloadFile(getFileURL(tagLI))
     elif fileType == "word.gif":
-        downloadFile(getFileURL(tagLI))
+        fileName = downloadFile(getFileURL(tagLI))
     elif fileType == "docx.gif":
-        downloadFile(getFileURL(tagLI))
+        fileName = downloadFile(getFileURL(tagLI))
+    elif fileType == "pptx.gif":
+        fileName = downloadFile(getFileURL(tagLI))
     else:
         print "Skipping unhandled filetype: ",fileType
+        return ""
 
 
 
     #TODO   
-    return ""
+    return '&nbsp;<a href="/CurrentCourse/' + fileName + '" target="_new">' + tagLI.get_text() + ';&nbsp;</a><br />'
+
 
 
 def getFileURL(tagLI):
@@ -139,19 +141,13 @@ def downloadFile(moodleURL):
     with open(folderPath+'/'+fileName, 'wb') as writeFile:
         for chunk in fileURL.iter_content(512):
             writeFile.write(chunk) 
+    return fileName
 
-def test():
-    url = 'http://moodle.rutgers.edu/mod/resource/view.php?inpopup=true&id=172747'
-    test = requests.get(url, cookies = cookies, allow_redirects = False)
-
-    print test.url
-    print test.headers['location']
 
 
 
 if __name__ == '__main__':
     #siteURL = getCourseMoogle('NURS6400G-Fa13: KNOWLEDGE TRANSLATION-ADV NP')
-    siteURL = 'http://moodle.rutgers.edu/course/view.php?id=3273'
+    siteURL = 'http://moodle.rutgers.edu/course/view.php?id=4526'
     folderPath = siteURL[siteURL.rfind('=')+1:]
     parseCourseMoogle(siteURL)
-    #test()
