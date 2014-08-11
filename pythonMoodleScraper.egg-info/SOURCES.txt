@@ -1,0 +1,7 @@
+main.py
+setup.py
+pythonMoodleScraper.egg-info/PKG-INFO
+pythonMoodleScraper.egg-info/SOURCES.txt
+pythonMoodleScraper.egg-info/dependency_links.txt
+pythonMoodleScraper.egg-info/requires.txt
+pythonMoodleScraper.egg-info/top_level.txt
