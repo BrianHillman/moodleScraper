@@ -114,7 +114,10 @@ def handleLI(tagLI):
 
 
     #TODO
-    return '&nbsp;<a href="/CurrentCourse/' + fileName + '" target="_new">' + tagLI.get_text() + ';&nbsp;</a><br />'
+    if len(fileName) > 2:
+        return '&nbsp;<a href="/CurrentCourse/' + fileName + '" target="_new">' + tagLI.get_text() + '&nbsp;</a><br />\n'
+    else:
+        return ""
 
 
 
@@ -134,16 +137,19 @@ def downloadFile(moodleURL):
         fileURL  = str(fileURL.headers['location'])
     except:
         return ""
+
     fileName = fileURL[fileURL.rfind('/')+1:]
     fileURL  = requests.get(fileURL, cookies = cookies)
+    #hacky way to replace % escaped characters, well at least spaces haha
+    fileName = fileName.replace("%20", " ")
 
 
-
-    print "downloading ",fileURL.url, "As: ", fileName
+    #print "downloading ",fileURL.url, "As: ", fileName
     try:
         open(folderPath+'/'+fileName, 'wb')
     except:
         os.mkdir(folderPath)
+
     with open(folderPath+'/'+fileName, 'wb') as writeFile:
         for chunk in fileURL.iter_content(512):
             writeFile.write(chunk)
@@ -153,6 +159,6 @@ def downloadFile(moodleURL):
 
 
 if __name__ == '__main__':
-    siteURL    = 'http://moodle.rutgers.edu/course/view.php?id=3772'
+    siteURL    = 'http://moodle.rutgers.edu/course/view.php?id=2692'
     folderPath = siteURL[siteURL.rfind('=')+1:]
     parseCourseMoogle(siteURL)
