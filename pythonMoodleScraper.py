@@ -7,7 +7,7 @@ cookies = {}
 
 def login():
 
-    login = {"username":"sntest", "password":"123456", "Content-Type":"application/x-www-form-urlencoded"}
+    login = {"username":"*****", "password":"*****", "Content-Type":"application/x-www-form-urlencoded"}
     r = requests.post("https://moodle.rutgers.edu/login/index.php",params=login)
 
     cookie1 =  r.headers['set-cookie'].split(' ')[2].replace(';','')
