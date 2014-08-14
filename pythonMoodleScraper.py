@@ -173,7 +173,6 @@ def downloadFile(moodleURL):
     return fileName
 
 def downloadFolder(url):
-    print url
     response = requests.get(url, cookies=cookies)
     soup = bs4.BeautifulSoup(response.text)
 
